@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+echo "${bold}Installing Apple software${normal}"
+# # xcode-select --install
+# # sudo xcodebuild -license
+sleep 2
+echo "🍺 Installed Apple software"
+
+#/usr/sbin/softwareupdate --install-rosetta
+
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# brew install ansible

@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Install Oh My ZSH
+      shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+      args:
+        creates: "/Users/{{ lookup('env', 'USER') }}/.oh-my-zsh"
+
+    - name: Install JetBrains Mono Font
+      shell: |
+        cd /tmp
+        curl -L -o JetBrainsMono.zip https://download.jetbrains.com/fonts/JetBrainsMono-2.242.zip
+        unzip -o JetBrainsMono.zip
+
+    - name: Install core packages via brew casks
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+      ignore_errors: yes
+      with_items:
+        - docker
+        - visual-studio-code
+        - google-chrome
+
+    - name: "Install homebrew packages"
+      community.general.homebrew:
+        name: [
+          'mas',
+          'nodejs',
+          'openjdk'
+        ]
+        state: present
+        update_homebrew: yes
+
+    - name: "Install from Mac app store"
+      shell: mas install {{ item }}
+      with_items:
+        - 747648890 # telegram
+
+    # # Add something which ensures path is set here
+    # - name: Install VSCode extensions
+    #   shell: code --install-extension {{ item }}
+    #   with_items:
+    #     - clinyong.vscode-css-modules
